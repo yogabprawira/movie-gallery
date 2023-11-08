@@ -5,7 +5,13 @@ const fetchData = async (keyword: string) => {
     console.log(url)
     try {
         const response = await axios.get(url)
-        return response.data.Search
+        if (response.data.Search === undefined) {
+            response.data.Search = []
+            response.data.Message = response.data.Error
+        } else {
+            response.data.Message = `Search result of "${keyword}"`
+        }
+        return response.data
     } catch (e) {
         throw e
     }
